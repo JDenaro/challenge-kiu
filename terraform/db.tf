@@ -7,12 +7,16 @@ module "aurora" {
   instance_class  = "db.t3.medium"
   instances       = { 1 = {} }
   master_username = "root"
+  database_name   = "kiudb"
 
   vpc_id               = module.vpc.vpc_id
   db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
-    vpc_ingress = {
-      cidr_blocks = module.vpc.private_subnets_cidr_blocks
+    # vpc_ingress = {
+    #   cidr_blocks = module.vpc.private_subnets_cidr_blocks
+    # }
+    eks_ingress = {
+      source_security_group_id = module.eks.node_security_group_id
     }
   }
 
