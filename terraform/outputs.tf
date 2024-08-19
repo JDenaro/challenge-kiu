@@ -13,6 +13,11 @@ output "EKS_cluster_name" {
   value       = module.eks.cluster_name
 }
 
+output "EKS_node_security_group_id" {
+  description = "Kubernetes Cluster Name"
+  value       = module.eks.node_security_group_id
+}
+
 output "Aurora_cluster_master_username" {
   description = "The database master username"
   value       = module.aurora.cluster_master_username
