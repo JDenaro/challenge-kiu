@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "kiu-app.fullname" . }}-pre-hook
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  ttlSecondsAfterFinished: 3600  # Job will be deleted 1 hour after completion
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: {{ .Chart.Name }}-psql-client
+        image: postgres:15-alpine
+        command: ["sh", "-c"]
+        args:
+          - |
+            export PGPASSWORD=$DB_PASSWORD
+            until psql -h $DB_HOST -U $DB_USERNAME -d $DB_NAME -c '\q'; do
+              echo "Waiting for the database to be ready..."
+              sleep 2
+            done
+            echo "Database is ready, proceeding with the application..."
+            exit 0
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: psql
+            containerPort: 5432
+            protocol: TCP
+        envFrom:
+        - secretRef:
+            name: {{ .Values.envFrom.secretRef.name }}
