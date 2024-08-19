@@ -68,6 +68,11 @@ Additionally, please include the scripts or commands used to deploy and configur
 - EKS API is only reacheable from within VPC
 - Aurora Postgres instance is only reacheable from EKS node group security group (SG)
 - Database credentials are stored in AWS Secrets Manager
+## High availability and scaling
+- K8s deployment has a minimum of 2 running pods to ensure high availability.
+- K8s deployments scale based on CPU usage (80% or more). 
+- Aurora PostgreSQL deployment consists of 1 main instance + 1 read replica.
+- Aurora PostgreSQL deployment has auto scaling enabled, by adding read replicas.
 ## Supporting documentation
 
 https://developer.hashicorp.com/terraform/tutorials/kubernetes/eks
