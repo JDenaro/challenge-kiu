@@ -1,6 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 output "EKS_cluster_endpoint" {
   description = "Endpoint for EKS control plane"
   value       = module.eks.cluster_endpoint
@@ -16,4 +13,12 @@ output "EKS_cluster_name" {
   value       = module.eks.cluster_name
 }
 
+output "Aurora_cluster_master_username" {
+  description = "The database master username"
+  value       = module.aurora.cluster_master_username
+}
 
+output "Aurora_cluster_endpoint" {
+  description = "Writer endpoint for the cluster"
+  value       = module.aurora.cluster_endpoint
+}
