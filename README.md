@@ -57,14 +57,14 @@ Additionally, please include the scripts or commands used to deploy and configur
       --from-literal=DB_HOST=example.cluster-c1wa6eaumkjz.us-east-1.rds.amazonaws.com \
       --from-literal=DB_USERNAME=root \
       --from-literal=DB_NAME=kiudb \
-      --from-literal=DB_PASSWORD=password123 \
+      --from-literal=DB_PASSWORD=password123
 5. Deploy Helm chart:
     ```bash
     go to ./helm and run "helm install kiu-app ."
 6. Get Load Balancer DNS name:
     ```bash
     kubectl get service <service-name> -n <namespace> -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
-## Security
+## Security Considerations
 - EKS API is only reacheable from within VPC
 - Aurora Postgres instance is only reacheable from EKS node group security group (SG)
 - Database credentials are stored in AWS Secrets Manager
